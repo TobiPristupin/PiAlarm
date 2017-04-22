@@ -1,0 +1,29 @@
+
+
+<ClockScreen>:
+	time_label: time_label
+	alarm_label: alarm_label
+	orientation: "vertical"
+	padding: 20
+	canvas.before:
+		Color:
+			rgba: 1, 1, 1, 1
+		Rectangle:
+			size: self.size
+			pos: self.pos	
+
+	Label:
+		id: time_label
+		bold: True
+		font_size: "250sp"
+		color: 0, 0, 0, 1
+		size_hint_y: 1.8
+
+	Label:
+		id: alarm_label
+		color: 0, 0, 0, 1
+		font_size: "30sp"
+
+
+
+ClockScreen					
