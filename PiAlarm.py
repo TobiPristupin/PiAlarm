@@ -111,7 +111,7 @@ class ClockScreen(BoxLayout):
 			if date.hour < 12 :
 				time_period = "AM"
 			else :
-				time_period = "PM"	
+				time_period = "PM"	 
 			
 			self.alarm_label.text = "{} {}:{:02d} {}".format(date.strftime("%A"), date.hour, self.alarm.minute, time_period)
 		else :
@@ -126,7 +126,8 @@ class ClockScreen(BoxLayout):
 			self.play_alarm()
 			self.alarm = None
 			print("Schedule Refresh")
-			Clock.schedule_once(self.refresh_alarm, 60)
+			#Schedule refresh in 62 seconds, to pass through current min and prevent setting alarm to same one.
+			Clock.schedule_once(self.refresh_alarm, 62)
 
 	def play_alarm(self):
 		self.sound.play()
