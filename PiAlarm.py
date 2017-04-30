@@ -108,12 +108,11 @@ class ClockScreen(BoxLayout):
 		if has_alarm :
 			date = datetime.datetime(datetime.datetime.now().year, self.alarm.month,
 				self.alarm.day_of_month, self.alarm.hour)
-			
 			if date.hour < 12 :
 				time_period = "AM"
 			else :
 				time_period = "PM"	
-
+			
 			self.alarm_label.text = "{} {}:{:02d} {}".format(date.strftime("%A"), date.hour, self.alarm.minute, time_period)
 		else :
 			self.alarm_label.text = "No Alarm"	
@@ -126,6 +125,7 @@ class ClockScreen(BoxLayout):
 		if self.alarm != None and self.alarm.should_play():
 			self.play_alarm()
 			self.alarm = None
+			print("Schedule Refresh")
 			Clock.schedule_once(self.refresh_alarm, 60)
 
 	def play_alarm(self):
