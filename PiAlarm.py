@@ -117,7 +117,7 @@ class ClockScreen(BoxLayout):
 			self.alarm_label.text = "No Alarm"	
 
 	def on_touch_down(self, touch):
-		if pygame.mixer.music.get_busy() :
+		if pygame.mixer.get_init() != None and pygame.mixer.music.get_busy() :
 			pygame.mixer.music.stop()
 			pygame.mixer.quit()
 
