@@ -12,6 +12,7 @@ import httplib2
 import os
 import argparse
 import dateutil.parser
+import pygame
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
@@ -84,13 +85,11 @@ class ClockScreen(BoxLayout):
 	
 	time_label = ObjectProperty(None)
 	alarm_label = ObjectProperty(None)
-	sound = SoundLoader.load("alarm_song.ogg")
 	calendar_manager = GoogleCalendarManager()
 
 	def __init__(self, **kwargs):
 		super(ClockScreen, self).__init__(**kwargs)
 		self.alarm = None
-		self.sound.loop = True
 		self.set_time()
 		self.refresh_alarm()
 		#Schedules callback to change time label time every 60 seconds
@@ -118,19 +117,21 @@ class ClockScreen(BoxLayout):
 			self.alarm_label.text = "No Alarm"	
 
 	def on_touch_down(self, touch):
-		if self.sound.state == "play":
-			self.sound.stop()
+		if pygame.mixer.music.get_busy() :
+			pygame.mixer.music.stop()
+			pygame.mixer.quit()
 
 	def check_alarm(self, *args):
 		if self.alarm != None and self.alarm.should_play():
 			self.play_alarm()
 			self.alarm = None
-			print("Schedule Refresh")
 			#Schedule refresh in 62 seconds, to pass through current min and prevent setting alarm to same one.
 			Clock.schedule_once(self.refresh_alarm, 62)
 
 	def play_alarm(self):
-		self.sound.play()
+		pygame.mixer.init()
+		pygame.mixer.music.load("alarm_song.ogg")
+		pygame.mixer.music.play(1)
 
 	def refresh_alarm(self, *args):
 		self.alarm = self.calendar_manager.get_next_alarm()
