@@ -130,7 +130,7 @@ class ClockScreen(BoxLayout):
 
 	def play_alarm(self):
 		pygame.mixer.init()
-		pygame.mixer.music.load("alarm_song.ogg")
+		pygame.mixer.music.load("plegaria.mp3")
 		pygame.mixer.music.play(1)
 
 	def refresh_alarm(self, *args):
