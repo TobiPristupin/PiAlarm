@@ -51,20 +51,24 @@ class GoogleCalendarManager():
 	    return credentials
 
 	def get_next_alarm(self):
-		credentials = self.get_credentials()
-		http = credentials.authorize(httplib2.Http())
-		service = discovery.build('calendar', 'v3', http=http)
-		
-		now = datetime.datetime.utcnow().isoformat() + 'Z' 
-		week_from_now = str(datetime.datetime.today().date() + datetime.timedelta(weeks=1) ) + "T00:00:00Z"
-		#ID of PiAlarm dedicated calendar
-		calendar_id = "u38uqb2rt2fr3drka35jopmsho@group.calendar.google.com"
-		#Send query to Google Cal API. Filter events one week from current time.
-		eventsResult = service.events().list(
-        	calendarId=calendar_id, timeMin=now, timeMax=week_from_now, maxResults=1, singleEvents=True,
-        	orderBy='startTime', q="PiAlarm Wake").execute()
-		
-		events = eventsResult.get('items', [])
+		try :
+			credentials = self.get_credentials()
+			http = credentials.authorize(httplib2.Http())
+			service = discovery.build('calendar', 'v3', http=http)
+			
+			now = datetime.datetime.utcnow().isoformat() + 'Z' 
+			week_from_now = str(datetime.datetime.today().date() + datetime.timedelta(weeks=1) ) + "T00:00:00Z"
+			#ID of PiAlarm dedicated calendar
+			calendar_id = "u38uqb2rt2fr3drka35jopmsho@group.calendar.google.com"
+			#Send query to Google Cal API. Filter events one week from current time.
+			eventsResult = service.events().list(
+	        	calendarId=calendar_id, timeMin=now, timeMax=week_from_now, maxResults=1, singleEvents=True,
+	        	orderBy='startTime', q="PiAlarm Wake").execute()
+			
+			events = eventsResult.get('items', [])
+
+		except :
+			return None
 
 		if not events :
 			return None
