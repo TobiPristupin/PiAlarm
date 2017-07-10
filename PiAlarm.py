@@ -17,8 +17,8 @@ from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
+from kivy.properties import ListProperty
 
-	
 
 class GoogleCalendarManager():
 	
@@ -90,22 +90,44 @@ class ClockScreen(BoxLayout):
 	time_label = ObjectProperty(None)
 	alarm_label = ObjectProperty(None)
 	calendar_manager = GoogleCalendarManager()
+	background_color = ListProperty([1, 1, 1, 1])
 
 	def __init__(self, **kwargs):
 		super(ClockScreen, self).__init__(**kwargs)
 		self.alarm = None
 		self.set_time()
 		self.refresh_alarm()
-		#Schedules callback to change time label time every 60 seconds
+		#Schedules callback to change time label time every second
 		Clock.schedule_interval(self.set_time, 1)
 		#Schecules callback to check if should play alarm
 		Clock.schedule_interval(self.check_alarm, 2)
 		#Schedules callback to refresh alarm from Google Calendar every 30 minutes
 		Clock.schedule_interval(self.refresh_alarm, 1800)
+		
 
 
 	def set_time(self, *args): 
 		self.time_label.text = datetime.datetime.now().strftime("%H:%M")
+		self.change_theme()
+
+	#Changes theme to black on nightime
+	def change_theme(self):
+		#If current time after 10PM
+		if datetime.datetime.now().time() > datetime.time(hour=21) :
+			self.set_black_theme()
+		#If current time after 10AM
+		elif datetime.datetime.now().time() > datetime.time(hour=10):
+			self.set_white_theme()
+
+	def set_black_theme(self):
+		self.background_color = [0, 0, 0, 1]
+		self.time_label.color = [1, 1, 1, 1]
+		self.alarm_label.color = [1, 1, 1, 1]
+
+	def set_white_theme(self):
+		self.background_color = [1, 1, 1, 1]
+		self.time_label.color = [0, 0, 0, 1]
+		self.alarm_label.color = [0, 0, 0, 1]
 
 	def set_next_alarm_text(self, has_alarm):
 		if has_alarm :
@@ -129,10 +151,11 @@ class ClockScreen(BoxLayout):
 		if self.alarm != None and self.alarm.should_play():
 			self.play_alarm()
 			self.alarm = None
-			#Schedule refresh in 62 seconds, to pass through current min and prevent setting alarm to same one.
+			#Schedule refresh in 62 seconds, to pass through current minute and prevent setting alarm to same one.
 			Clock.schedule_once(self.refresh_alarm, 62)
 
 	def play_alarm(self):
+		self.set_white_theme()
 		pygame.mixer.init()
 		pygame.mixer.music.load("plegaria2.ogg")
 		pygame.mixer.music.play(1)
@@ -142,7 +165,13 @@ class ClockScreen(BoxLayout):
 		if self.alarm == None :
 			self.set_next_alarm_text(False)
 		else :
-			self.set_next_alarm_text(True)	
+			self.set_next_alarm_text(True)
+
+	def set_background_light(self):
+		self.background_color = [1, 1, 1, 1]
+
+	def set_background_dark(self):
+		self.background_color = [0, 0, 0, 1]				
 
 
 
