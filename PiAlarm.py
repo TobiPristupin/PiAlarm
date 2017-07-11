@@ -91,6 +91,8 @@ class ClockScreen(BoxLayout):
 	alarm_label = ObjectProperty(None)
 	calendar_manager = GoogleCalendarManager()
 	background_color = ListProperty([1, 1, 1, 1])
+	time_label_color = ListProperty([0, 0, 0, 1])
+	alarm_label_color = ListProperty([0, 0, 0, 1])
 
 	def __init__(self, **kwargs):
 		super(ClockScreen, self).__init__(**kwargs)
@@ -121,13 +123,13 @@ class ClockScreen(BoxLayout):
 
 	def set_black_theme(self):
 		self.background_color = [0, 0, 0, 1]
-		self.time_label.color = [1, 1, 1, 1]
-		self.alarm_label.color = [1, 1, 1, 1]
+		self.time_label_color = [1, 1, 1, 1]
+		self.alarm_label_color = [1, 1, 1, 1]
 
 	def set_white_theme(self):
 		self.background_color = [1, 1, 1, 1]
-		self.time_label.color = [0, 0, 0, 1]
-		self.alarm_label.color = [0, 0, 0, 1]
+		self.time_label_color = [0, 0, 0, 1]
+		self.alarm_label_color = [0, 0, 0, 1]
 
 	def set_next_alarm_text(self, has_alarm):
 		if has_alarm :
