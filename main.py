@@ -7,13 +7,16 @@ from overrider import overrides
 import calendar_api
 import sys
 
+default_audio_dirname = os.path.normpath(os.path.dirname(__file__))
+default_audio_path = os.path.join(default_audio_dirname, "pinkpanther.wav")
+
 def parse_args() :
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--morning-time", type=int, help="Time at which screen turns to white theme", default=8)
     parser.add_argument("-n", "--night-time", type=int, help="Time at which screen turns to black theme", default=21)
     parser.add_argument("-r", "--refresh-minutes", type=int, help="Minutes between each alarm refresh", default=30)
     parser.add_argument("-a", "--audio-file", type=str, help="path to alarm audio file",
-                        default="pinkpanther.wav")
+                        default=default_audio_path)
     parser.add_argument("-p", "--platform", type=Platform.from_string, choices=list(Platform), default=Platform.windows,
                         help="""Platform where the program is running. If platforms is windows, it will use winsound as 
                         an audio provider. If platform is linux, it will use aplay for audio and attempt to access the 
