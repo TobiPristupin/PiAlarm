@@ -36,8 +36,8 @@ def get_next_alarm() -> (bool, Alarm):
 
 def __get_gcal_events() -> Dict:
     service = __get_service()
-    #now = datetime.datetime.now(tzlocal.get_localzone()).isoformat("T")
-    now = str(datetime.datetime.now().isoformat("T")) + "-04:00"
+    now = datetime.datetime.now(tzlocal.get_localzone()).isoformat("T")
+    #now = str(datetime.datetime.now().isoformat("T")) + "-04:00"
     week_from_now = str(datetime.datetime.today().date() + datetime.timedelta(weeks=1)) + iso_8601_suffix
 
     query = __query_calendar(service, now, week_from_now)
@@ -60,12 +60,6 @@ def __utc_to_alarm(utc_datetime: str) -> Alarm:
 
 
 def __get_credentials():
-    """Gets valid user credentials from storage.
-    If nothing has been stored, or if the stored credentials are invalid,
-    the OAuth2 flow is completed to obtain the new credentials.
-    Returns:
-        Credentials, the obtained credential.
-    """
     home_dir = os.path.expanduser('~')
     credential_dir = os.path.join(home_dir, '.credentials')
 
