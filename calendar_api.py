@@ -37,7 +37,6 @@ def get_next_alarm() -> (bool, Alarm):
 def __get_gcal_events() -> Dict:
     service = __get_service()
     now = datetime.datetime.now(tzlocal.get_localzone()).isoformat("T")
-    #now = str(datetime.datetime.now().isoformat("T")) + "-04:00"
     week_from_now = str(datetime.datetime.today().date() + datetime.timedelta(weeks=1)) + iso_8601_suffix
 
     query = __query_calendar(service, now, week_from_now)

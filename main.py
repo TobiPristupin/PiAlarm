@@ -50,7 +50,8 @@ night_time = args.night_time
 morning = args.morning_time
 alarm_refresh_minutes = args.refresh_minutes
 alarm_audio_path = args.audio_file
-audio_out = AudioPlayer(args.platform)
+platform  = args.platform
+audio_out = AudioPlayer(platform)
 
 def get_current_time() -> datetime.datetime:
     return datetime.datetime.now()

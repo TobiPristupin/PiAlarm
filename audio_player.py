@@ -25,7 +25,7 @@ class AudioPlayer():
         self.process = None
 
     def play_wave(self, path_to_wave: str):
-        self.stop() #Avoid overlapping audio files
+        self.stop() # Avoid overlapping audio files
         if self.platform is Platform.linux :
             self.process = subprocess.Popen(["aplay", str(path_to_wave)])
         elif self.platform is Platform.windows :
