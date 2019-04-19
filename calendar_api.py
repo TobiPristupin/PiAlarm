@@ -21,7 +21,7 @@ iso_8601_suffix = "T00:00:00Z"
 def get_next_alarm() -> (bool, Alarm):
     try :
         event = __get_gcal_events()
-    except httplib2.ServerNotFoundError :
+    except :
         return False, None
 
     if not event :
