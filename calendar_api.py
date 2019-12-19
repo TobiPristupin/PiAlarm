@@ -18,10 +18,12 @@ calendar_id = "u38uqb2rt2fr3drka35jopmsho@group.calendar.google.com"
 event_id = "PiAlarm Wake"
 iso_8601_suffix = "T00:00:00Z"
 
+
 def get_next_alarm() -> (bool, Alarm):
     try :
         event = __get_gcal_events()
-    except :
+    except Exception as e:
+        print(e)
         return False, None
 
     if not event :
@@ -85,6 +87,7 @@ def __get_service():
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('calendar', 'v3', http=http)
     return service
+
 
 
 
