@@ -73,13 +73,13 @@ class ClockScreen(BoxLayout):
         self.alarm = None
         self.init_button()
         self.set_time()
-        self.change_theme()
+        self.set_theme()
         self.schedule_callbacks()
         self.refresh_alarm()
 
     def schedule_callbacks(self):
         Clock.schedule_interval(lambda delta_time: self.set_time(), 1)
-        Clock.schedule_interval(lambda delta_time: self.change_theme(), 60)
+        Clock.schedule_interval(lambda delta_time: self.set_theme(), 60)
         Clock.schedule_interval(lambda delta_time: self.check_alarm(), 3)
         Clock.schedule_interval(lambda delta_time: self.refresh_alarm(), alarm_refresh_minutes * 60)
 
@@ -109,7 +109,7 @@ class ClockScreen(BoxLayout):
     def set_time(self):
         self.time_label.text = get_current_time().strftime("%H:%M")
 
-    def change_theme(self):
+    def set_theme(self):
         if get_current_time().time() > datetime.time(hour=night_time):
             self.set_black_theme()
         elif get_current_time().time() > datetime.time(hour=morning):
@@ -117,6 +117,7 @@ class ClockScreen(BoxLayout):
 
     def refresh_alarm(self):
         result = calendar_api.get_next_alarm()
+        print(result)
 
         if result[0] is False:
             self.set_alarm_text("No Alarm")
